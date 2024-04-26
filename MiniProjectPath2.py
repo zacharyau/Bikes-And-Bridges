@@ -4,6 +4,14 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import mean_squared_error, r2_score
 
+from sklearn.model_selection import train_test_split
+
+from sklearn.neural_network import MLPClassifier
+
+from sklearn.metrics import confusion_matrix
+
+
+
 ''' 
 The following is the starting code for path2 for data reading to make your first step easier.
 'dataset_2' is the clean data for path1.
@@ -161,6 +169,78 @@ plt.ylabel('Number of Bikers')
 plt.title(f"Does Weather Influence the Number of Bikers on Bridges in NYC?\nr^2 = {r2}")
 plt.legend()
 plt.show()
+
+
+
+# Problem 3
+k = 5
+
+arr = np.mod(np.arange(williamsburg.size) + k, 7)
+
+Total = dataset_2['Total'].to_numpy()
+
+new = arr.reshape(-1, 1)
+
+newTot = Total.reshape(-1, 1)
+
+new.ravel()
+
+newTot.ravel()
+
+
+
+X_train, X_test, y_train, y_test = train_test_split(new, newTot, test_size=0.2)
+
+
+
+model = MLPClassifier()
+
+X_train = np.ravel(X_train)
+
+y_train = np.ravel(y_train)
+
+#print(X_train)
+
+X_train = X_train.reshape(-1, 1)
+
+y_train = y_train.reshape(-1, 1)
+
+
+
+model.fit(X_train, y_train)
+
+# ^ causing warnings
+
+predictions = model.predict(X_test)
+
+
+
+mse = mean_squared_error(y_test, predictions)
+
+
+
+
+print("Mean Squared Error for Part 3:", mse)
+
+x = range(0, len(X_test))
+plt.scatter(x, y_test, color='black', label='test data')
+plt.scatter(x, predictions, marker='x', color='blue', label='predicted data')
+plt.xlabel('Days Since September 18')
+plt.ylabel('Number of Bikers')
+plt.title(f"Does Weather Influence the Number of Bikers on Bridges in NYC?\nMSE = {round(mse, 3)}")
+plt.legend()
+plt.show()
+
+
+
+# now add up days of week from 0-6 on all bridges for each day.
+
+#Sunday = 0
+
+#Sat - 6
+
+
+
 
 
 
