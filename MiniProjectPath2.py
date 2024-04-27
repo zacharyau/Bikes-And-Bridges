@@ -105,15 +105,25 @@ values = list(sensorDict.values())
 sorted_index = np.argsort(values)
 sorted_dict = {keys[i]: values[i] for i in sorted_index}
 
-
+print("Problem 1:\n")
 print("The sensors should be installed on:")
 for i in range(3, 0, -1):
     print(f'- the {keys[sorted_index[i]]} ({values[sorted_index[i]]} bikers)')
-    
+
+bridges = list(sensorDict.keys())
+numBikers = list(sensorDict.values())   
+
+fig = plt.figure(figsize = (10, 5))
+
+plt.bar(bridges, numBikers, color = 'maroon', width = 0.4)
+plt.xlabel("Bridges")
+plt.ylabel("Total Bikers [millions]")
+plt.title("Total bikers on each bridge")
     
 
 
 # Problem 2: Weather
+print("\nProblem 2:\n")
 length = len(brooklyn) # how many data points we have for each column
 trLength = round(length * 0.8) # length of training data (80/20 split)
 
@@ -161,18 +171,20 @@ r2 = round(r2_score(tstTotal, predicted_Bikers), 3)
 print(f'The r^2 score is: {r2}')
 
 # Plot outputs
+fig2 = plt.figure()
 x = range(0, tstLength)
 plt.scatter(x, tstTotal, color='black', label='test data')
 plt.scatter(x, predicted_Bikers, marker='x', color='red', label='predicted data')
 plt.xlabel('Days Since September 18')
-plt.ylabel('Number of Bikers')
-plt.title(f"Does Weather Influence the Number of Bikers on Bridges in NYC?\nr^2 = {r2}")
+plt.ylabel('Number of Bikers [per Day]')
+plt.title(f"Does weather influence the number of bikers on bridges in NYC?\nr^2 = {r2}")
 plt.legend()
 plt.show()
 
 
 
 # Problem 3
+print("\nProblem 3:\n")
 k = 5
 
 arr = np.mod(np.arange(williamsburg.size) + k, 7)
@@ -222,12 +234,14 @@ mse = mean_squared_error(y_test, predictions)
 
 print("Mean Squared Error for Part 3:", mse)
 
+
+fig3 = plt.figure()
 x = range(0, len(X_test))
 plt.scatter(x, y_test, color='black', label='test data')
 plt.scatter(x, predictions, marker='x', color='blue', label='predicted data')
 plt.xlabel('Days Since September 18')
 plt.ylabel('Number of Bikers')
-plt.title(f"Does Weather Influence the Number of Bikers on Bridges in NYC?\nMSE = {round(mse, 3)}")
+plt.title(f"Can we predict the day of the week based\n on the amount of bikers on all the bridges?\nMSE = {round(mse, 3)}")
 plt.legend()
 plt.show()
 
